@@ -1,0 +1,50 @@
+const sampleCoupons = [
+    {
+      _id: '1',
+      code: 'WELCOME50',
+      description: 'Giảm 50k cho đơn hàng đầu tiên',
+      discountType: 'fixed',
+      discountValue: 50000,
+      maxDiscount: null,
+      minOrderValue: 200000,
+      maxUses: null,
+      currentUses: 25,
+      maxUsesPerUser: 1,
+      isActive: true,
+      expiryDate: '2025-12-31',
+      createdAt: '2024-01-15',
+      startDate: '2024-01-01'
+    },
+    {
+      _id: '2',
+      code: 'SALE20',
+      description: 'Giảm 20% tối đa 100k',
+      discountType: 'percentage',
+      discountValue: 20,
+      maxDiscount: 100000,
+      minOrderValue: 300000,
+      maxUses: 100,
+      currentUses: 67,
+      maxUsesPerUser: 1,
+      isActive: true,
+      expiryDate: '2025-12-31',
+      createdAt: '2024-02-01',
+      startDate: '2024-02-01'
+    },
+    {
+      _id: '3',
+      code: 'FREESHIP',
+      description: 'Miễn phí vận chuyển',
+      discountType: 'fixed',
+      discountValue: 30000,
+      maxDiscount: null,
+      minOrderValue: 150000,
+      maxUses: null,
+      currentUses: 145,
+      maxUsesPerUser: 5,
+      isActive: false,
+      expiryDate: '2024-12-31',
+      createdAt: '2024-01-10',
+      startDate: '2024-01-10'
+    }
+  ];
