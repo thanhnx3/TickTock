@@ -6,19 +6,24 @@ import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 // Import dữ liệu giả lập từ file mockData
-import { blogPosts, comments as initialComments, popularTags } from "@/assets/mockData"; // Giả lập dữ liệu bài viết và bình luận
+import {
+  blogPosts,
+  comments as initialComments,
+  popularTags,
+} from "@/assets/mockData"; // Giả lập dữ liệu bài viết và bình luận
 
 const BlogDetailPage = () => {
   const router = useRouter();
   const params = useParams();
   const postId = parseInt(params?.id) || 1;
-  
+
   // Lấy dữ liệu bài viết từ mockData
-  const blogPostDetail = blogPosts.find(post => post.id === postId) || blogPosts[0];
-  
+  const blogPostDetail =
+    blogPosts.find((post) => post.id === postId) || blogPosts[0];
+
   // Lấy dữ liệu bài viết liên quan
   const relatedPosts = blogPosts
-    .filter(post => blogPostDetail.relatedPosts?.includes(post.id))
+    .filter((post) => blogPostDetail.relatedPosts?.includes(post.id))
     .slice(0, 3);
 
   // State cho comments
@@ -26,7 +31,7 @@ const BlogDetailPage = () => {
   const [commentForm, setCommentForm] = useState({
     name: "",
     email: "",
-    content: ""
+    content: "",
   });
 
   // Xử lý khi người dùng thay đổi form bình luận
@@ -34,7 +39,7 @@ const BlogDetailPage = () => {
     const { name, value } = e.target;
     setCommentForm({
       ...commentForm,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -46,13 +51,15 @@ const BlogDetailPage = () => {
       name: commentForm.name,
       content: commentForm.content,
       date: new Date().toLocaleDateString("vi-VN"),
-      avatar: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 99)}.jpg`
+      avatar: `https://randomuser.me/api/portraits/${
+        Math.random() > 0.5 ? "men" : "women"
+      }/${Math.floor(Math.random() * 99)}.jpg`,
     };
     setComments([...comments, newComment]);
     setCommentForm({
       name: "",
       email: "",
-      content: ""
+      content: "",
     });
     alert("Cảm ơn bạn đã gửi bình luận!");
   };
@@ -62,19 +69,29 @@ const BlogDetailPage = () => {
     return (
       <div className="flex space-x-4 mb-6">
         <div className="flex-shrink-0 w-24 h-24 relative rounded overflow-hidden">
-          <Image 
-            src={post.image} 
-            alt={post.title} 
+          <Image
+            src={post.image}
+            alt={post.title}
             fill
             className="object-cover"
           />
         </div>
         <div className="flex-grow">
-          <span className="text-xs font-semibold text-orange-600">{post.category}</span>
+          <span className="text-xs font-semibold text-orange-600">
+            {post.category}
+          </span>
           <h3 className="text-base font-medium hover:text-orange-600 transition">
-            <Link href={`/blog/${post.id}`}>{post.title}</Link>
+            <Link
+              // href={`/blog/${post.id}`}
+              href="#"
+              onClick={(e) => e.preventDefault()}
+            >
+              {post.title}
+            </Link>
           </h3>
-          <p className="text-xs text-gray-500 mt-1">{post.date} • {post.author}</p>
+          <p className="text-xs text-gray-500 mt-1">
+            {post.date} • {post.author}
+          </p>
         </div>
       </div>
     );
@@ -83,11 +100,11 @@ const BlogDetailPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       {/* Hero section */}
       <section className="relative h-64 md:h-96 bg-gray-900">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-50" 
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-50"
           style={{ backgroundImage: `url(${blogPostDetail.image})` }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
@@ -126,7 +143,7 @@ const BlogDetailPage = () => {
             <div className="lg:w-2/3">
               <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
                 {/* Content */}
-                <div 
+                <div
                   className="prose prose-orange max-w-none"
                   dangerouslySetInnerHTML={{ __html: blogPostDetail.content }}
                 />
@@ -135,9 +152,11 @@ const BlogDetailPage = () => {
                 <div className="mt-8 pb-6 border-b">
                   <div className="flex flex-wrap gap-2">
                     {blogPostDetail.tags.map((tag, index) => (
-                      <Link 
+                      <Link
                         key={index}
-                        href={`/blog/tag/${tag}`}
+                        // href={`/blog/tag/${tag}`}
+                        href="#"
+                        onClick={(e) => e.preventDefault()}
                         className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded-full transition"
                       >
                         #{tag}
@@ -149,8 +168,8 @@ const BlogDetailPage = () => {
                 {/* Author info */}
                 <div className="flex items-center mt-8 p-6 bg-gray-50 rounded-lg">
                   <div className="w-16 h-16 relative rounded-full overflow-hidden flex-shrink-0">
-                    <Image 
-                      src={blogPostDetail.authorAvatar} 
+                    <Image
+                      src={blogPostDetail.authorAvatar}
                       alt={blogPostDetail.author}
                       width={64}
                       height={64}
@@ -158,22 +177,29 @@ const BlogDetailPage = () => {
                     />
                   </div>
                   <div className="ml-4">
-                    <h3 className="font-bold text-lg">{blogPostDetail.author}</h3>
-                    <p className="text-gray-600 text-sm">Biên tập viên tại TickTock - Chuyên gia về đồng hồ với hơn 10 năm kinh nghiệm trong ngành.</p>
+                    <h3 className="font-bold text-lg">
+                      {blogPostDetail.author}
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      Biên tập viên tại TickTock - Chuyên gia về đồng hồ với hơn
+                      10 năm kinh nghiệm trong ngành.
+                    </p>
                   </div>
                 </div>
 
                 {/* Comments section */}
                 <div className="mt-12">
-                  <h3 className="text-xl font-bold mb-6">Bình luận ({comments.length})</h3>
-                  
+                  <h3 className="text-xl font-bold mb-6">
+                    Bình luận ({comments.length})
+                  </h3>
+
                   {/* Comments list */}
                   <div className="space-y-6 mb-8">
-                    {comments.map(comment => (
+                    {comments.map((comment) => (
                       <div key={comment.id} className="flex gap-4">
                         <div className="w-10 h-10 relative rounded-full overflow-hidden flex-shrink-0">
-                          <Image 
-                            src={comment.avatar} 
+                          <Image
+                            src={comment.avatar}
                             alt={comment.name}
                             width={40}
                             height={40}
@@ -184,7 +210,9 @@ const BlogDetailPage = () => {
                           <div className="bg-gray-50 p-4 rounded-lg">
                             <div className="flex justify-between items-center mb-2">
                               <h4 className="font-medium">{comment.name}</h4>
-                              <span className="text-xs text-gray-500">{comment.date}</span>
+                              <span className="text-xs text-gray-500">
+                                {comment.date}
+                              </span>
                             </div>
                             <p className="text-gray-700">{comment.content}</p>
                           </div>
@@ -192,14 +220,17 @@ const BlogDetailPage = () => {
                       </div>
                     ))}
                   </div>
-                  
+
                   {/* Comment form */}
                   <div className="bg-gray-50 rounded-lg p-6">
                     <h4 className="text-lg font-bold mb-4">Để lại bình luận</h4>
                     <form onSubmit={handleCommentSubmit}>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          <label
+                            htmlFor="name"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                          >
                             Họ tên
                           </label>
                           <input
@@ -213,7 +244,10 @@ const BlogDetailPage = () => {
                           />
                         </div>
                         <div>
-                          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                          >
                             Email
                           </label>
                           <input
@@ -228,7 +262,10 @@ const BlogDetailPage = () => {
                         </div>
                       </div>
                       <div className="mb-4">
-                        <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label
+                          htmlFor="content"
+                          className="block text-sm font-medium text-gray-700 mb-1"
+                        >
                           Nội dung
                         </label>
                         <textarea
@@ -252,27 +289,33 @@ const BlogDetailPage = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Sidebar */}
             <div className="lg:w-1/3">
               {/* Related posts */}
               <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-                <h3 className="text-lg font-bold mb-4 pb-2 border-b">Bài viết liên quan</h3>
+                <h3 className="text-lg font-bold mb-4 pb-2 border-b">
+                  Bài viết liên quan
+                </h3>
                 <div className="space-y-6">
-                  {relatedPosts.map(post => (
+                  {relatedPosts.map((post) => (
                     <RelatedPostCard key={post.id} post={post} />
                   ))}
                 </div>
               </div>
-              
+
               {/* Popular tags */}
               <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-                <h3 className="text-lg font-bold mb-4 pb-2 border-b">Tags phổ biến</h3>
+                <h3 className="text-lg font-bold mb-4 pb-2 border-b">
+                  Tags phổ biến
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {popularTags.map((tag, index) => (
-                    <Link 
+                    <Link
                       key={index}
-                      href={`/blog/tag/${tag}`}
+                      // href={`/blog/tag/${tag}`}
+                      href="#"
+                      onClick={(e) => e.preventDefault()}
                       className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded-full transition"
                     >
                       #{tag}
@@ -280,7 +323,7 @@ const BlogDetailPage = () => {
                   ))}
                 </div>
               </div>
-              
+
               {/* Newsletter */}
               <div className="bg-orange-50 rounded-xl shadow-sm p-6">
                 <h3 className="text-lg font-bold mb-2">Đăng ký nhận tin</h3>
